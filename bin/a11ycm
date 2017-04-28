@@ -1,0 +1,5 @@
+#! /usr/bin/env ruby
+require "thor"
+require "a11y/color/matrix"
+
+A11y::Color::Matrix::CLI.start(ARGV)
