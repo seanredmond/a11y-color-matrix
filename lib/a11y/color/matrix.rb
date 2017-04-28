@@ -1,3 +1,4 @@
+require "wcag_color_contrast"
 require "a11y/color/matrix/cli"
 require "a11y/color/matrix/version"
 
