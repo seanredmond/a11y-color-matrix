@@ -8,10 +8,14 @@ module A11y
         desc "check", "check list of colors"
         def check(*c)
           colors = Set.new add_white(add_black(c, options['b']), options['w'])
-          ratios = colors.sort.combination(2).map{|fg, bg|
-            [fg, bg, WCAGColorContrast.ratio(fg.dup, bg.dup)] if fg != bg
-          }.sort{|x, y| x[2] <=> y[2]}.reverse
+          #ratios = colors.sort.combination(2).map{|fg, bg|
+          #  [fg, bg, WCAGColorContrast.ratio(fg.dup, bg.dup)] if fg != bg
+          #}.sort{|x, y| x[2] <=> y[2]}.reverse
 
+          ratios = colors.sort.combination(2).map{|fg, bg|
+            Matrix::rate(fg, bg) if fg != bg
+          }.sort{|x, y| x[2] <=> y[2]}.reverse
+          
           if options['html']
             puts genHtml(ratios)
           else
@@ -39,11 +43,12 @@ module A11y
           end
 
           def genHtml(ratios)
-            rows = ratios.map do |fg, bg, ratio|
+            rows = ratios.map do |fg, bg, ratio, rating|
               b = binding
               b.local_variable_set(:fg, fg)
               b.local_variable_set(:bg, bg)
               b.local_variable_set(:ratio, "%5.2f" % [ratio])
+              b.local_variable_set(:rating, rating)
               ROW.result(b)
             end
 
