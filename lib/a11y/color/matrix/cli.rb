@@ -4,12 +4,18 @@ module A11y
       class CLI < Thor
         option :w, :type => :boolean, :desc => "add white to comparisons"
         option :b, :type => :boolean, :desc => "add black to comparision"
+        option :html, :type => :boolean, :desc => "generate HTML output"
         desc "check", "check list of colors"
         def check(*c)
           colors = Set.new add_white(add_black(c, options['b']), options['w'])
-          colors.sort.combination(2).each do |fg, bg|
-            ratio = WCAGColorContrast.ratio(fg.dup, bg.dup) 
-            if fg != bg
+          ratios = colors.sort.combination(2).map{|fg, bg|
+            [fg, bg, WCAGColorContrast.ratio(fg.dup, bg.dup)] if fg != bg
+          }.sort{|x, y| x[2] <=> y[2]}.reverse
+
+          if options['html']
+            puts genHtml(ratios)
+          else
+            ratios.each do |fg, bg, ratio|
               puts "% 6s/% 6s: %5.2f" % [fg, bg, ratio]
             end
           end
@@ -30,6 +36,20 @@ module A11y
             end
 
             return c
+          end
+
+          def genHtml(ratios)
+            rows = ratios.map do |fg, bg, ratio|
+              b = binding
+              b.local_variable_set(:fg, fg)
+              b.local_variable_set(:bg, bg)
+              b.local_variable_set(:ratio, "%5.2f" % [ratio])
+              ROW.result(b)
+            end
+
+            b = binding
+            b.local_variable_set(:rows, rows.join)
+            PAGE.result(b)
           end
         end
       end
