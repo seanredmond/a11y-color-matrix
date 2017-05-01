@@ -17,11 +17,26 @@ module A11y
       body {
       font-size: 24px;
       }
-      .swatchCell {
+
+      table {
+      border-collapse: collapse;
+      }
+
+      
+
+      th, td {
+      border: 2px solid black;
+      }
+
+      td {     
+      padding: 1em;
+      }          
+
+      .swatchContainer {
       display: flex;
       }
 
-      .swatchCell > .swatch:first-child {
+      .swatchContainer > .swatch:first-child {
       margin-right: 10px;
       }
       
@@ -37,10 +52,22 @@ module A11y
       .mono {
         font-family: monospace;
       }
+
+      .ratio {
+        text-align: right;
+      }
     </style>
   </head>
   <body>
     <table>
+      <thead>
+        <tr>
+          <th colspan="2">Colors</th>
+          <th>Swatches</th>
+          <th>Ratio</th>
+          <th>Criteria met</th>
+        </tr>
+      </thead>
       <tbody>
       <%= rows %>
       </tbody>
@@ -54,10 +81,12 @@ ERB
   <td class="mono">#<%= fg %></td>
   <td class="mono">#<%= bg %></td>
   <td class="swatchCell">
-    <div class="swatch" style="color: #<%= fg %>; background-color: #<%= bg %>">Q</div>
-    <div class="swatch" style="background-color: #<%= fg %>; color: #<%= bg %>">Q</div>
+    <div class="swatchContainer">
+      <div class="swatch" style="color: #<%= fg %>; background-color: #<%= bg %>">Q</div>
+      <div class="swatch" style="background-color: #<%= fg %>; color: #<%= bg %>">Q</div>
+    </div>
   </td>
-  <td><%= ratio %></td>
+  <td class="ratio"><%= ratio %></td>
   <td><%= rating %></td>
 </tr>
 ERB
