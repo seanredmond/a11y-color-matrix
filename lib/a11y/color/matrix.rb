@@ -94,18 +94,18 @@ ERB
 
       def self.getRating(ratio)
         if ratio >= 7.0
-          return "AAA"
+          return "\u{1f600} AAA"
         end
 
         if ratio >= 4.5
-          return "AA"
+          return "\u{1f600} AA"
         end
 
         if ratio >= 3.0
-          return "AA, large/bold"
+          return "\u{1F914} AA, large/bold"
         end
 
-        return "Fails all criteria"
+        return "\u{2620} Fails all criteria"
       end
       
       def self.rate(fg, bg)
