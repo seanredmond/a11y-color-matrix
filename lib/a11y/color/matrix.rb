@@ -82,7 +82,7 @@ ERB
   <td class="mono">#<%= bg %></td>
   <td class="swatchCell">
     <div class="swatchContainer">
-      <div class="swatch" style="color: #<%= fg %>; background-color: #<%= bg %>">Q</div>
+      <div class="swatch" style="color: #<%= fg %>; background-color: #<%= bg %><%= outline %>">Q</div>
       <div class="swatch" style="background-color: #<%= fg %>; color: #<%= bg %>">Q</div>
     </div>
   </td>
@@ -94,18 +94,18 @@ ERB
 
       def self.getRating(ratio)
         if ratio >= 7.0
-          return "\u{1f600} AAA"
+          return "\u{1f44d}  AAA"
         end
 
         if ratio >= 4.5
-          return "\u{1f600} AA"
+          return "\u{1f44d}  AA"
         end
 
         if ratio >= 3.0
-          return "\u{1F914} AA, large/bold"
+          return "\u{1F914}  AA, large/bold"
         end
 
-        return "\u{2620} Fails all criteria"
+        return "\u{2620}  Fails all criteria"
       end
       
       def self.rate(fg, bg)

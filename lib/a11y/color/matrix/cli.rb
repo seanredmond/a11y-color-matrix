@@ -20,7 +20,7 @@ module A11y
             puts genHtml(ratios)
           else
             ratios.each do |fg, bg, ratio|
-              puts "% 6s/% 6s: %5.2f" % [fg, bg, ratio]
+              puts "% 6s/% 6s: %5.2f %s" % [fg, bg, ratio, Matrix::getRating(ratio)]
             end
           end
         end
@@ -49,6 +49,11 @@ module A11y
               b.local_variable_set(:bg, bg)
               b.local_variable_set(:ratio, "%5.2f" % [ratio])
               b.local_variable_set(:rating, rating)
+              if bg == "ffffff"
+                b.local_variable_set(:outline, "; border: 1px dashed black")
+              else
+                b.local_variable_set(:outline, "")
+              end
               ROW.result(b)
             end
 
