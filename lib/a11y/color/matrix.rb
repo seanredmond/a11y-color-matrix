@@ -94,7 +94,7 @@ ERB
 
       def self.getRating(ratio)
         if ratio >= 7.0
-          return "\u{1f44d}  AAA"
+          return "\u{1f3c6}  AAA"
         end
 
         if ratio >= 4.5
